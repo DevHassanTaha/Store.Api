@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/Core/">
+    <Project Path="Core/Store.G02.Domain/Store.G02.Domain.csproj" />
+    <Project Path="Core/Store.G02.Services.Abstractions/Store.G02.Services.Abstractions.csproj" />
+    <Project Path="Core/Store.G02.Services/Store.G02.Services.csproj" />
+  </Folder>
+  <Folder Name="/Infrastructure/">
+    <Project Path="Infrastructure/Store.G02.Persistence/Store.G02.Persistence.csproj" />
+    <Project Path="Infrastructure/Store.G02.Presentation/Store.G02.Presentation.csproj" Id="db89e80e-90b6-44fc-b28c-f6734346ba66" />
+  </Folder>
+  <Project Path="Store.G02.Shard/Store.G02.Shard.csproj" Id="8bd0468a-79d6-4187-a327-76af7bffef58" />
+  <Project Path="Store.G02.Web/Store.G02.Web.csproj" />
+</Solution>
