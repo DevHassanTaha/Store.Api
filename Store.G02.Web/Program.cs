@@ -1,8 +1,8 @@
-
 using Microsoft.EntityFrameworkCore;
 using Store.G02.Domain.Contracts;
-using Store.G02.Persistence.Data.Contexts;
 using Store.G02.Persistence;
+using Store.G02.Persistence.Data.Contexts;
+using Store.G02.Services.Mapping.Products;
 
 namespace Store.G02.Web
 {
@@ -23,6 +23,9 @@ namespace Store.G02.Web
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
             builder.Services.AddScoped<IDbInitializer, DbInitializer>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddAutoMapper(M => M.AddProfile(profile: new ProductProfile()));
+
             var app = builder.Build();
             // ASK From CLR
             #region Initialize Db
