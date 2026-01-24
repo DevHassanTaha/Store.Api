@@ -1,3 +1,5 @@
+using System;
+
 namespace Store.G02.Web
 {
     public class WeatherForecast
