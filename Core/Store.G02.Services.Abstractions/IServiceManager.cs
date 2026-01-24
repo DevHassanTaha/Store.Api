@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Store.G02.Services.Abstractions
 {
-    public interface IServiceManger
+    public interface IServiceManager
     {
         IProductService ProductService { get; }
 

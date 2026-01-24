@@ -8,6 +8,6 @@ namespace Store.G02.Shard.Dtos.Products
 {
     public class BrandTypeResponse
     {
-        string Name { get; set; }
+        public string Name { get; set; }
     }
 }
