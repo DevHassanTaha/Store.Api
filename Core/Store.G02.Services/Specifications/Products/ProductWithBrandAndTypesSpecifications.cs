@@ -15,7 +15,10 @@ namespace Store.G02.Services.Specifications.Products
             ApplyIncludes();
         }
 
-        public ProductsWithBrandAndTypeSpecifications(int? brandId, int? typeId) : base
+
+
+        // null & null
+        public ProductsWithBrandAndTypeSpecifications(int? brandId, int? typeId, string? sort) : base
             (
             P =>
              (!brandId.HasValue || P.BrandId == brandId) 
@@ -23,9 +26,43 @@ namespace Store.G02.Services.Specifications.Products
              (!typeId.HasValue || P.TypeId == typeId)
             )
         {
+            ApplySort(sort);
             ApplyIncludes();
         }
         
+
+
+        private void ApplySort(string? sort)
+        {
+            // priceasc
+            // pricedesc
+            // nameasc
+            if (!string.IsNullOrEmpty(sort))
+            {
+                switch (sort.ToLower())
+                {
+                    case "priceasc":
+                        AddOrderBy(P => P.Price);
+                        break;
+                    case "pricedesc":
+                        AddOrderByDescending(P => P.Price);
+                        break;
+                    case "nameasc":
+                        AddOrderBy(P => P.Name);
+                        break;
+                    case "namedesc":
+                        AddOrderByDescending(P => P.Name);
+                        break;
+                    default:
+                        AddOrderBy(P => P.Name);
+                        break;
+                }
+            }
+            else
+            {
+                AddOrderBy(P => P.Name);
+            }
+        }
         private void ApplyIncludes()
         {
             Includes.Add(P => P.Brand);

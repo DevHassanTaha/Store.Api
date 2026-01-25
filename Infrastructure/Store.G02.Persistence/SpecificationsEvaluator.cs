@@ -19,13 +19,25 @@ namespace Store.G02.Persistence
         {
             var query = inputQuery; // _context.Products
 
+            // check if there is any criteria
+
             if (spec.Criteria is not null)
             {
                 query = query.Where(spec.Criteria); // _context.Products.Where(P => P.Id == 12)
             }
 
+            // check Expression for OrderBy or OrderByDescending
+            if (spec.OrderBy is not null)
+            {
+                query = query.OrderBy(spec.OrderBy); // _context.Products.OrderBy(P => P.Name)
+            }
+            else if (spec.OrderByDescending is not null)
+            {
+                query = query.OrderByDescending(spec.OrderByDescending); // _context.Products.OrderByDescending(P => P.Name)
+            }
+
             // _context.Products.Where(P => P.Id == 12).Include(P => P.Brand)
-            // _context.Products.Where(P => P.Id == 12).Include(P => P.Brand).Include(P => P.Type)
+            // _context.Products.OrderBy(P => P.Name).Where(P => P.Id == 12).Include(P => P.Brand).Include(P => P.Type)
             query = spec.Includes.Aggregate(query, (query, includeExpression) => query.Include(includeExpression));
 
             return query;
