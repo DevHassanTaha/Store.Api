@@ -21,10 +21,10 @@ namespace Store.G02.Services.Products
             return result;
         }
 
-        public async Task<IEnumerable<ProductResponse>> GetAllProductsAsync()
+        public async Task<IEnumerable<ProductResponse>> GetAllProductsAsync(int? brandId, int? typeId)
         {
-            var spec = new ProductsWithBrandAndTypeSpecifications();
-            var products = await _unitOfWork.GetRepository<int,Product>().GetAllAsync();
+            var spec = new ProductsWithBrandAndTypeSpecifications(brandId,typeId);
+            var products = await _unitOfWork.GetRepository<int,Product>().GetAllAsync(spec);
             var result = _mapper.Map<IEnumerable<ProductResponse>>(products);
             return result;
         }
@@ -39,7 +39,7 @@ namespace Store.G02.Services.Products
         public async Task<ProductResponse> GetProductByIdAsync(int id)
         {
             var spec = new ProductsWithBrandAndTypeSpecifications(id);
-            var product =  await _unitOfWork.GetRepository<int,Product>().GetAsync(id);
+            var product =  await _unitOfWork.GetRepository<int,Product>().GetAsync(spec);
             var result = _mapper.Map<ProductResponse>(product);
             return result;
         }
