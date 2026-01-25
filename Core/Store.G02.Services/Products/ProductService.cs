@@ -2,6 +2,7 @@
 using Store.G02.Domain.Contracts;
 using Store.G02.Domain.Entities.Products;
 using Store.G02.Services.Abstractions.Products;
+using Store.G02.Services.Specifications.Products;
 using Store.G02.Shard.Dtos.Products;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace Store.G02.Services.Products
 
         public async Task<IEnumerable<ProductResponse>> GetAllProductsAsync()
         {
+            var spec = new ProductsWithBrandAndTypeSpecifications();
             var products = await _unitOfWork.GetRepository<int,Product>().GetAllAsync();
             var result = _mapper.Map<IEnumerable<ProductResponse>>(products);
             return result;
@@ -36,6 +38,7 @@ namespace Store.G02.Services.Products
 
         public async Task<ProductResponse> GetProductByIdAsync(int id)
         {
+            var spec = new ProductsWithBrandAndTypeSpecifications(id);
             var product =  await _unitOfWork.GetRepository<int,Product>().GetAsync(id);
             var result = _mapper.Map<ProductResponse>(product);
             return result;
