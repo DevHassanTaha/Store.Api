@@ -5,7 +5,6 @@ using Store.G02.Persistence.Data.Contexts;
 using Store.G02.Services;
 using Store.G02.Services.Abstractions;
 using Store.G02.Services.Mapping.Products;
-
 namespace Store.G02.Web
 {
     public class Program
@@ -27,7 +26,8 @@ namespace Store.G02.Web
             builder.Services.AddScoped<IDbInitializer, DbInitializer>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IServiceManager, ServiceManager>();
-            builder.Services.AddAutoMapper(M => M.AddProfile(profile: new ProductProfile()));
+            builder.Services.AddAutoMapper(M => M.AddProfile(profile: new ProductProfile(builder.Configuration)));
+
 
             var app = builder.Build();
             // ASK From CLR
@@ -45,6 +45,9 @@ namespace Store.G02.Web
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            // Serve static files from wwwroot (so /images/... works)
+            app.UseStaticFiles();
 
             app.UseHttpsRedirection();
 
