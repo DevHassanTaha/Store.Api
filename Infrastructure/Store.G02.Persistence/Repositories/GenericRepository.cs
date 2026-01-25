@@ -31,6 +31,11 @@ namespace Store.G02.Persistence.Repositories
                 : await _context.Set<TEntity>().AsNoTracking().ToListAsync();
         }
 
+        public async Task<IEnumerable<TEntity>> GetAllAsync(ISpecifications<TKey, TEntity> spec, bool changeTracker = false)
+        {
+            return await ApplySpecifications(spec).ToListAsync();
+        }
+
         public async Task<TEntity?> GetAsync(TKey key)
         {
             if(typeof (TEntity) == typeof(Product))
@@ -43,9 +48,19 @@ namespace Store.G02.Persistence.Repositories
             return await _context.Set<TEntity>().FindAsync(key);
         }
 
+        public async Task<TEntity?> GetAsync(ISpecifications<TKey, TEntity> spec)
+        {
+            return await ApplySpecifications(spec).FirstOrDefaultAsync();
+        }
+
         public void Update(TEntity entity)
         {
             _context.Update(entity);
+        }
+
+        private IQueryable<TEntity> ApplySpecifications(ISpecifications<TKey, TEntity> spec)
+        {
+            return SpecificationsEvaluator.GetQuery<TKey, TEntity>(_context.Set<TEntity>(), spec);
         }
     }
 }
