@@ -35,6 +35,11 @@ namespace Store.G02.Persistence
             {
                 query = query.OrderByDescending(spec.OrderByDescending); // _context.Products.OrderByDescending(P => P.Name)
             }
+            // check for pagination
+            if (spec.IsPagination)
+            {
+                query = query.Skip(spec.Skip).Take(spec.Take); // _context.Products.OrderBy(P => P.Name).Where(P => P.Id == 12).Skip(0).Take(10)
+            }
 
             // _context.Products.Where(P => P.Id == 12).Include(P => P.Brand)
             // _context.Products.OrderBy(P => P.Name).Where(P => P.Id == 12).Include(P => P.Brand).Include(P => P.Type)
