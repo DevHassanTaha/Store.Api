@@ -3,6 +3,7 @@ using Store.G02.Domain.Contracts;
 using Store.G02.Domain.Entities.Products;
 using Store.G02.Services.Abstractions.Products;
 using Store.G02.Services.Specifications.Products;
+using Store.G02.Shard;
 using Store.G02.Shard.Dtos.Products;
 using System;
 using System.Collections.Generic;
@@ -21,12 +22,14 @@ namespace Store.G02.Services.Products
             return result;
         }
 
-        public async Task<IEnumerable<ProductResponse>> GetAllProductsAsync(ProductQueryParameters parameters)
+        public async Task<PaginationResponse<ProductResponse>> GetAllProductsAsync(ProductQueryParameters parameters)
         {
             var spec = new ProductsWithBrandAndTypeSpecifications(parameters);
             var products = await _unitOfWork.GetRepository<int,Product>().GetAllAsync(spec);
             var result = _mapper.Map<IEnumerable<ProductResponse>>(products);
-            return result;
+            var specCount = new ProductsCountSpecifications(parameters);
+            var count = await _unitOfWork.GetRepository<int,Product>().CountAsync(specCount);
+            return new PaginationResponse<ProductResponse>(parameters.PageIndex, parameters.PageSize, count, result);
         }
 
         public async Task<IEnumerable<BrandTypeResponse>> GetAllTypesAsync()

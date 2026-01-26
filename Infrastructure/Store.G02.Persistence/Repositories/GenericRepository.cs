@@ -12,6 +12,11 @@ namespace Store.G02.Persistence.Repositories
             await _context.AddAsync(entity);
         }
 
+        public async Task<int> CountAsync(ISpecifications<TKey, TEntity> spec)
+        {
+            return await ApplySpecifications(spec).CountAsync();
+        }
+
         public void Delete(TEntity entity)
         {
             _context.Remove(entity);
