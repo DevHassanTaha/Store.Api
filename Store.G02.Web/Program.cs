@@ -5,6 +5,7 @@ using Store.G02.Persistence.Data.Contexts;
 using Store.G02.Services;
 using Store.G02.Services.Abstractions;
 using Store.G02.Services.Mapping.Products;
+using Store.G02.Web.Middlewares;
 namespace Store.G02.Web
 {
     public class Program
@@ -45,6 +46,8 @@ namespace Store.G02.Web
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseMiddleware<GlobalErrorHandlingMiddleware>();
 
             // Serve static files from wwwroot (so /images/... works)
             app.UseStaticFiles();
