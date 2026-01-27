@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Store.G02.Domain.Exceptions.NotFound
 {
-    public class NotFoundException(string message) : Exception(message)
+    public abstract class NotFoundException(string message) : Exception(message)
     {
     }
 }
